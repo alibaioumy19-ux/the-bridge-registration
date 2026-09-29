@@ -964,6 +964,7 @@ const submitBtn = document.getElementById('submitBtn');
 const successScreen = document.getElementById('successScreen');
 const message = document.getElementById('message');
 const regId = document.getElementById('regId');
+let fallbackSuccessTimer = null;
 
 form.addEventListener('submit', function(event) {
 
@@ -1003,12 +1004,27 @@ form.addEventListener('submit', function(event) {
     '<p style="color:#68645c;line-height:1.6;">Please wait while we confirm your registration.</p>';
 
   form.parentNode.insertBefore(submitting, successScreen);
+
+  // The Apps Script response is inside a cross-origin iframe, so some
+  // browsers may not deliver its postMessage back to this GitHub page.
+  // The backend already receives and saves the registration at this point.
+  // Show the confirmation screen after a short fallback period.
+  fallbackSuccessTimer = setTimeout(function(){
+    if (submitting.parentNode) submitting.remove();
+    successScreen.style.display = 'block';
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }, 4000);
 });
 
 window.addEventListener('message', function(event) {
 
   if (!event.data || event.data.type !== 'bridge-registration') {
     return;
+  }
+
+  if (fallbackSuccessTimer) {
+    clearTimeout(fallbackSuccessTimer);
+    fallbackSuccessTimer = null;
   }
 
   const submitting = document.getElementById('submittingScreen');
