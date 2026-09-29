@@ -53,13 +53,11 @@
       The logo is now supplied by Apps Script as a data URI.
       This prevents Google Drive from being used directly by the browser.
     */
-    .brand img{
-      max-width:220px;
-      max-height:80px;
-      width:auto;
+    .bridge-logo{
+      display:block;
+      width:220px;
+      max-width:70%;
       height:auto;
-      object-fit:contain;
-      display:block
     }
 
     .wordmark{
@@ -449,9 +447,8 @@
         border-radius:10px
       }
 
-      .brand img{
-        max-width:180px;
-        max-height:65px
+      .bridge-logo{
+        max-width:180px
       }
     }
   </style>
@@ -468,11 +465,12 @@
         Apps Script supplies the logo as settings.logoDataUri.
         No Google Drive URL is loaded directly by the browser.
       -->
-      <img
-        id="logo"
-        src="https://drive.google.com/uc?export=view&id=1jLumJkKyTR0GSefC_FJ8EUyU1oOtJXtQ"
-        alt="The Bridge logo"
-      >
+      <svg class="bridge-logo" viewBox="0 0 900 260" role="img" aria-label="The Bridge | Where Experience Meets Potential">
+  <rect width="900" height="260" rx="18" fill="#070707"/>
+  <text x="48" y="135" font-family="Arial, Helvetica, sans-serif" font-size="94" font-weight="800" fill="#ffffff">The</text>
+  <text x="235" y="135" font-family="Arial, Helvetica, sans-serif" font-size="94" font-weight="800" fill="#f5a11b">Bridge</text>
+  <text x="50" y="193" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="600" letter-spacing="5" fill="#ffffff">WHERE EXPERIENCE MEETS POTENTIAL</text>
+</svg>
 
     </div>
 
