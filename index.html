@@ -1,245 +1,457 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>The Bridge | From Campus to Career</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      box-sizing: border-box;
+    :root{
+      --black:#070707;
+      --ink:#151515;
+      --gold:#f5a11b;
+      --gold-light:#ffc15a;
+      --cream:#fffaf1;
+      --muted:#68645c;
+      --line:#e7dfd3
     }
 
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #050505;
-      color: #ffffff;
-      min-height: 100vh;
+    *{
+      box-sizing:border-box
     }
 
-    .page {
-      width: 100%;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 40px 20px 60px;
+    body{
+      margin:0;
+      background:var(--cream);
+      color:var(--ink);
+      font-family:'DM Sans',Arial,sans-serif
     }
 
-    .logo {
-      display: block;
-      width: 220px;
-      max-width: 70%;
-      margin: 0 auto 35px;
+    .hero{
+      background:
+        radial-gradient(circle at 90% 0,#3e2908 0,transparent 32%),
+        var(--black);
+      color:#fff;
+      padding:32px 20px 76px
     }
 
-    .card {
-      background: #111111;
-      border: 1px solid #2b2b2b;
-      border-radius: 18px;
-      padding: 35px;
-      box-shadow: 0 15px 50px rgba(0,0,0,0.35);
+    .shell{
+      max-width:940px;
+      margin:auto
     }
 
-    h1 {
-      margin: 0 0 10px;
-      font-size: 32px;
-      text-align: center;
+    .brand{
+      display:flex;
+      align-items:center;
+      min-height:70px
     }
 
-    .subtitle {
-      text-align: center;
-      color: #bdbdbd;
-      margin: 0 0 35px;
-      line-height: 1.6;
+    /*
+      The logo is now supplied by Apps Script as a data URI.
+      This prevents Google Drive from being used directly by the browser.
+    */
+    .brand img{
+      max-width:220px;
+      max-height:80px;
+      width:auto;
+      height:auto;
+      object-fit:contain;
+      display:block
     }
 
-    .section-title {
-      font-size: 19px;
-      font-weight: 700;
-      margin: 30px 0 15px;
-      color: #f5d547;
+    .wordmark{
+      font-family:'Barlow Condensed',sans-serif;
+      font-size:32px;
+      font-weight:700;
+      letter-spacing:1px;
+      color:#fff
     }
 
-    label {
-      display: block;
-      margin-bottom: 7px;
-      font-size: 14px;
-      font-weight: 600;
+    .wordmark span{
+      color:var(--gold)
     }
 
-    input,
+    .eyebrow{
+      margin:76px 0 13px;
+      color:var(--gold-light);
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:2px;
+      text-transform:uppercase
+    }
+
+    h1{
+      max-width:720px;
+      margin:0;
+      font-family:'Barlow Condensed',sans-serif;
+      font-size:clamp(46px,8vw,80px);
+      line-height:.9;
+      letter-spacing:-1px;
+      text-transform:uppercase
+    }
+
+    .hero p{
+      max-width:610px;
+      margin:23px 0 0;
+      color:#e7e3db;
+      font-size:17px;
+      line-height:1.65
+    }
+
+    .details{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:28px
+    }
+
+    .details span{
+      border:1px solid #6e5429;
+      border-radius:999px;
+      padding:8px 12px;
+      color:#f8e7c5;
+      font-size:13px
+    }
+
+    main{
+      max-width:860px;
+      margin:-36px auto 64px;
+      padding:0 20px
+    }
+
+    .card{
+      background:#fff;
+      border-radius:18px;
+      box-shadow:0 18px 50px #00000016;
+      overflow:hidden
+    }
+
+    form{
+      padding:32px
+    }
+
+    .form-head{
+      border-bottom:1px solid var(--line);
+      margin-bottom:26px;
+      padding-bottom:20px
+    }
+
+    h2{
+      font:700 30px/1 'Barlow Condensed',sans-serif;
+      letter-spacing:.3px;
+      margin:0 0 6px;
+      text-transform:uppercase
+    }
+
+    .form-head p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px
+    }
+
+    .section-label{
+      color:#b16b00;
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:1.7px;
+      margin:28px 0 12px;
+      text-transform:uppercase
+    }
+
+    .grid{
+      display:grid;
+      gap:17px;
+      grid-template-columns:repeat(2,minmax(0,1fr))
+    }
+
+    .full{
+      grid-column:1/-1
+    }
+
+    label{
+      display:block;
+      color:#302d28;
+      font-size:13px;
+      font-weight:700;
+      margin-bottom:7px
+    }
+
+    .required::after{
+      content:' *';
+      color:#bd4c24
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
     select,
-    textarea {
-      width: 100%;
-      padding: 13px 14px;
-      margin-bottom: 18px;
-      border-radius: 9px;
-      border: 1px solid #3a3a3a;
-      background: #1a1a1a;
-      color: #ffffff;
-      font-size: 15px;
-      outline: none;
+    textarea{
+      appearance:none;
+      -webkit-appearance:none;
+      background:#fffdfa;
+      border:1px solid #d9d1c4;
+      border-radius:9px;
+      color:var(--ink);
+      font:400 14px 'DM Sans',sans-serif;
+      padding:12px;
+      width:100%
     }
 
-    input:focus,
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
     select:focus,
-    textarea:focus {
-      border-color: #f5d547;
+    textarea:focus{
+      border-color:var(--gold);
+      box-shadow:0 0 0 3px #f5a11b25;
+      outline:none
     }
 
-    textarea {
-      min-height: 100px;
-      resize: vertical;
+    textarea{
+      min-height:104px;
+      resize:vertical
     }
 
-    .checkbox-group {
-      margin-bottom: 20px;
+    .choices{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px
     }
 
-    .checkbox-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin-bottom: 10px;
-      color: #dddddd;
-      font-size: 14px;
-      line-height: 1.5;
+    .choice{
+      align-items:center;
+      border:1px solid #ded7ca;
+      border-radius:999px;
+      cursor:pointer;
+      display:flex;
+      font-size:13px;
+      font-weight:500;
+      gap:9px;
+      min-height:44px;
+      padding:10px 14px;
+      background:#fff;
+      margin:0;
+      transition:.15s;
+      user-select:none
     }
 
-    .checkbox-item input {
-      width: auto;
-      margin: 3px 0 0;
-      accent-color: #f5d547;
+    .choice:hover{
+      border-color:var(--gold);
+      background:#fffaf0
     }
 
-    button {
-      width: 100%;
-      padding: 16px;
-      margin-top: 15px;
-      border: none;
-      border-radius: 10px;
-      background: #f5d547;
-      color: #050505;
-      font-size: 16px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: 0.2s ease;
+    .choice input[type="radio"],
+    .choice input[type="checkbox"]{
+      appearance:auto!important;
+      -webkit-appearance:auto!important;
+      display:inline-block!important;
+      position:static!important;
+      opacity:1!important;
+      visibility:visible!important;
+      pointer-events:auto!important;
+      width:18px!important;
+      height:18px!important;
+      min-width:18px!important;
+      margin:0!important;
+      padding:0!important;
+      border:initial!important;
+      border-radius:initial!important;
+      background:initial!important;
+      box-shadow:none!important;
+      cursor:pointer;
+      accent-color:var(--gold);
+      flex-shrink:0
     }
 
-    button:hover {
-      transform: translateY(-1px);
+    .choice:has(input[type="radio"]:checked),
+    .choice:has(input[type="checkbox"]:checked){
+      border-color:var(--gold);
+      background:#fff8e9
     }
 
-    button:disabled {
-      cursor: not-allowed;
-      opacity: 0.7;
-      transform: none;
+    .consent{
+      align-items:flex-start;
+      background:#fff8e9;
+      border-radius:10px;
+      display:flex;
+      gap:11px;
+      margin:28px 0 20px;
+      padding:15px
     }
 
-    .error {
-      display: none;
-      background: #3a1111;
-      border: 1px solid #7a2424;
-      color: #ffb0b0;
-      padding: 14px;
-      border-radius: 9px;
-      margin-top: 15px;
-      line-height: 1.5;
+    .consent input[type="checkbox"]{
+      appearance:auto!important;
+      -webkit-appearance:auto!important;
+      display:block!important;
+      position:static!important;
+      opacity:1!important;
+      visibility:visible!important;
+      pointer-events:auto!important;
+      width:18px!important;
+      height:18px!important;
+      min-width:18px!important;
+      margin:2px 0 0!important;
+      padding:0!important;
+      border:initial!important;
+      border-radius:initial!important;
+      background:initial!important;
+      box-shadow:none!important;
+      cursor:pointer;
+      accent-color:var(--gold);
+      flex-shrink:0
     }
 
-    /* Submission screen */
-    #submissionScreen {
-      display: none;
-      text-align: center;
-      padding: 25px 10px 15px;
+    .consent label{
+      font-size:13px;
+      font-weight:500;
+      line-height:1.5;
+      margin:0;
+      cursor:pointer
     }
 
-    .success-icon {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      background: #f5d547;
-      color: #050505;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 25px;
-      font-size: 38px;
-      font-weight: 900;
+    button{
+      background:var(--gold);
+      border:0;
+      border-radius:9px;
+      color:#18110a;
+      cursor:pointer;
+      font:700 16px 'DM Sans',sans-serif;
+      padding:14px 22px;
+      transition:.2s;
+      width:100%
     }
 
-    #submissionScreen h2 {
-      font-size: 30px;
-      margin: 0 0 12px;
+    button:hover{
+      background:var(--gold-light);
+      transform:translateY(-1px)
     }
 
-    #submissionScreen p {
-      color: #cfcfcf;
-      line-height: 1.7;
-      max-width: 600px;
-      margin: 0 auto 15px;
+    button:disabled{
+      cursor:wait;
+      opacity:.65;
+      transform:none
     }
 
-    .registration-id {
-      display: inline-block;
-      margin: 20px auto;
-      padding: 14px 22px;
-      border: 1px solid #f5d547;
-      border-radius: 10px;
-      color: #f5d547;
-      font-size: 19px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
+    #message{
+      display:none;
+      margin-top:16px;
+      padding:13px;
+      border-radius:9px;
+      font-size:14px;
+      line-height:1.5
     }
 
-    .email-note {
-      color: #aaaaaa !important;
-      font-size: 14px;
+    #message.success{
+      background:#e4f6e7;
+      color:#1d6530;
+      display:block
     }
 
-    .submitting {
-      display: none;
-      text-align: center;
-      padding: 40px 10px;
+    #message.error{
+      background:#fff0ec;
+      color:#9f321d;
+      display:block
     }
 
-    .spinner {
-      width: 45px;
-      height: 45px;
-      border: 4px solid #333333;
-      border-top-color: #f5d547;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 20px;
+    #loading{
+      text-align:center;
+      padding:40px 20px;
+      color:var(--muted)
     }
 
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
+    .spinner{
+      width:28px;
+      height:28px;
+      border:3px solid #e5ddd0;
+      border-top-color:var(--gold);
+      border-radius:50%;
+      animation:spin .8s linear infinite;
+      margin:0 auto 14px
+    }
+
+    @keyframes spin{
+      to{
+        transform:rotate(360deg)
       }
     }
 
-    .submitting p {
-      color: #cccccc;
-      margin: 0;
+    .note{
+      margin-top:8px;
+      color:#847d72;
+      font-size:12px;
+      line-height:1.5
     }
 
-    @media (max-width: 600px) {
-      .page {
-        padding: 25px 14px 40px;
+    .success-screen{
+      display:none;
+      text-align:center;
+      padding:50px 30px
+    }
+
+    .success-icon{
+      width:62px;
+      height:62px;
+      border-radius:50%;
+      background:#e4f6e7;
+      color:#1d6530;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin:0 auto 20px;
+      font-size:30px;
+      font-weight:700
+    }
+
+    .success-screen h2{
+      margin-bottom:12px
+    }
+
+    .success-screen p{
+      color:var(--muted);
+      line-height:1.6;
+      max-width:560px;
+      margin:0 auto
+    }
+
+    footer{
+      color:#847d72;
+      font-size:12px;
+      padding:0 0 30px;
+      text-align:center
+    }
+
+    @media(max-width:640px){
+      .hero{
+        padding-bottom:58px
       }
 
-      .card {
-        padding: 24px 18px;
+      .eyebrow{
+        margin-top:52px
       }
 
-      h1 {
-        font-size: 26px;
+      form{
+        padding:23px 18px
       }
 
-      #submissionScreen h2 {
-        font-size: 25px;
+      .grid{
+        grid-template-columns:1fr
+      }
+
+      .full{
+        grid-column:auto
+      }
+
+      .choice{
+        width:100%;
+        border-radius:10px
+      }
+
+      .brand img{
+        max-width:180px;
+        max-height:65px
       }
     }
   </style>
@@ -247,17 +459,52 @@
 
 <body>
 
-<div class="page">
+<header class="hero">
+  <div class="shell">
 
-  <img
-    class="logo"
-    src="https://drive.google.com/uc?export=view&id=1jLumJkKyTR0GSefC_FJ8EUyU1oOtJXtQ"
-    alt="The Bridge"
-  >
+    <div class="brand">
+
+      <!--
+        Apps Script supplies the logo as settings.logoDataUri.
+        No Google Drive URL is loaded directly by the browser.
+      -->
+      <img
+        id="logo"
+        src="https://drive.google.com/uc?export=view&id=1jLumJkKyTR0GSefC_FJ8EUyU1oOtJXtQ"
+        alt="The Bridge logo"
+      >
+
+    </div>
+
+    <p class="eyebrow">Student registration</p>
+
+    <h1 id="eventName">
+      From Campus to Career
+    </h1>
+
+    <p>
+      A two-day career program by The Bridge, designed to help students
+      move from university to the workplace with practical guidance.
+    </p>
+
+    <div class="details" id="eventDetails">
+      <span>16th &amp; 17th November 2026</span>
+      <span>11:00 AM</span>
+      <span>Borg El Arab University</span>
+    </div>
+
+  </div>
+</header>
+
+<main>
 
   <div class="card">
 
-    <!-- FORM -->
+    <div id="loading" style="display:none;">
+      <div class="spinner"></div>
+      Loading registration form...
+    </div>
+
     <form
       id="registrationForm"
       method="POST"
@@ -265,453 +512,549 @@
       target="submissionFrame"
     >
 
-      <h1>From Campus to Career</h1>
-
-      <p class="subtitle">
-        Register for The Bridge's two-day career program at Borg El Arab University.
-      </p>
-
-      <div class="section-title">Personal Information</div>
-
-      <label for="fullName">Full Name *</label>
-      <input type="text" id="fullName" name="fullName" required>
-
-      <label for="email">Email Address *</label>
-      <input type="email" id="email" name="email" required>
-
-      <label for="whatsapp">WhatsApp Number *</label>
-      <input type="tel" id="whatsapp" name="whatsapp" required>
-
-      <div class="section-title">Academic Information</div>
-
-      <label for="university">University *</label>
-      <select id="university" name="university" required>
-        <option value="">Select your university</option>
-
-        <option>Ahram Canadian University</option>
-        <option>Ain Shams University</option>
-        <option>Al Alamein International University</option>
-        <option>Al-Azhar University</option>
-        <option>Alexandria University</option>
-        <option>Arab Academy for Science, Technology and Maritime Transport</option>
-        <option>Arish University</option>
-        <option>Assiut University</option>
-        <option>Aswan University</option>
-        <option>Badr University in Cairo</option>
-        <option>Benha University</option>
-        <option>Beni-Suef University</option>
-        <option>Cairo University</option>
-        <option>Capital University</option>
-        <option>Damanhour University</option>
-        <option>Damietta University</option>
-        <option>Delta University for Science and Technology</option>
-        <option>Deraya University</option>
-        <option>Egypt University of Informatics</option>
-        <option>Egyptian Chinese University</option>
-        <option>Egyptian Russian University</option>
-        <option>Egypt-Japan University of Science and Technology</option>
-        <option>Fayoum University</option>
-        <option>Future University in Egypt</option>
-        <option>Galala University</option>
-        <option>Heliopolis University</option>
-        <option>Kafrelsheikh University</option>
-        <option>King Salman International University</option>
-        <option>Luxor University</option>
-        <option>Mansoura National University</option>
-        <option>Mansoura University</option>
-        <option>Matrouh University</option>
-        <option>Menoufia University</option>
-        <option>Minia University</option>
-        <option>Misr International University</option>
-        <option>Misr University for Science and Technology</option>
-        <option>Modern Sciences and Arts University</option>
-        <option>Modern University for Technology and Information</option>
-        <option>Nahda University</option>
-        <option>New Giza University</option>
-        <option>New Valley National University</option>
-        <option>Nile University</option>
-        <option>October 6 University</option>
-        <option>Pharos University in Alexandria</option>
-        <option>Port Said University</option>
-        <option>Sinai University</option>
-        <option>Sohag University</option>
-        <option>South Valley University</option>
-        <option>Sphinx University</option>
-        <option>Suez Canal University</option>
-        <option>Suez University</option>
-        <option>Tanta University</option>
-        <option>The American University in Cairo</option>
-        <option>The Arab Academy for Management, Banking and Financial Sciences</option>
-        <option>The British University in Egypt</option>
-        <option>The German University in Cairo</option>
-        <option>Université Française d’Égypte</option>
-        <option>University of Sadat City</option>
-        <option>University of Science and Technology at Zewail City</option>
-        <option>Zagazig University</option>
-      </select>
-
-      <label for="faculty">Faculty *</label>
-      <input type="text" id="faculty" name="faculty" required>
-
-      <label for="major">Major / Specialization *</label>
-      <input type="text" id="major" name="major" required>
-
-      <label for="academicYear">Academic Year *</label>
-      <select id="academicYear" name="academicYear" required>
-        <option value="">Select your academic year</option>
-        <option>1st Year</option>
-        <option>2nd Year</option>
-        <option>3rd Year</option>
-        <option>4th Year</option>
-        <option>5th Year</option>
-        <option>Graduate</option>
-      </select>
-
-      <div class="section-title">Career Journey</div>
-
-      <label for="careerJourney">
-        Where are you currently in your career journey? *
-      </label>
-
-      <select id="careerJourney" name="careerJourney" required>
-        <option value="">Select one</option>
-        <option>Exploring career options</option>
-        <option>Looking for internships</option>
-        <option>Preparing for my first job</option>
-        <option>Already working</option>
-        <option>Looking to switch career paths</option>
-      </select>
-
-      <label for="careerChallenge">
-        What is your biggest career challenge right now? *
-      </label>
-
-      <textarea
-        id="careerChallenge"
-        name="careerChallenge"
-        required
-      ></textarea>
-
-      <label for="attendEvent">
-        Will you attend the event on 16th & 17th November 2026? *
-      </label>
-
-      <select id="attendEvent" name="attendEvent" required>
-        <option value="">Select one</option>
-        <option>Yes, I will attend both days</option>
-        <option>I will attend Day 1 only</option>
-        <option>I will attend Day 2 only</option>
-      </select>
-
-      <div class="section-title">
-        What do you want to develop?
+      <div class="form-head">
+        <h2>Register Your Interest</h2>
+        <p>
+          Please complete the information below. Fields marked with *
+          are required.
+        </p>
       </div>
 
-      <div class="checkbox-group">
+      <!-- PERSONAL INFORMATION -->
+      <div class="section-label">
+        Personal Information
+      </div>
 
-        <label class="checkbox-item">
-          <input
-            type="checkbox"
-            name="developmentGoals"
-            value="CV & LinkedIn"
-          >
-          <span>CV & LinkedIn</span>
-        </label>
+      <div class="grid">
 
-        <label class="checkbox-item">
-          <input
-            type="checkbox"
-            name="developmentGoals"
-            value="Interview Skills"
-          >
-          <span>Interview Skills</span>
-        </label>
+        <div>
+          <label class="required" for="fullName">
+            Full Name
+          </label>
 
-        <label class="checkbox-item">
           <input
-            type="checkbox"
-            name="developmentGoals"
-            value="Communication"
+            type="text"
+            id="fullName"
+            name="fullName"
+            placeholder="Enter your full name"
+            required
           >
-          <span>Communication</span>
-        </label>
+        </div>
 
-        <label class="checkbox-item">
-          <input
-            type="checkbox"
-            name="developmentGoals"
-            value="Leadership"
-          >
-          <span>Leadership</span>
-        </label>
+        <div>
+          <label class="required" for="email">
+            Email Address
+          </label>
 
-        <label class="checkbox-item">
           <input
-            type="checkbox"
-            name="developmentGoals"
-            value="Networking"
+            type="email"
+            id="email"
+            name="email"
+            placeholder="example@email.com"
+            required
           >
-          <span>Networking</span>
-        </label>
+        </div>
 
-        <label class="checkbox-item">
+        <div>
+          <label class="required" for="whatsapp">
+            WhatsApp Number
+          </label>
+
           <input
-            type="checkbox"
-            name="developmentGoals"
-            value="Career Planning"
+            type="tel"
+            id="whatsapp"
+            name="whatsapp"
+            placeholder="+20 1XXXXXXXXX"
+            required
           >
-          <span>Career Planning</span>
-        </label>
+        </div>
 
       </div>
 
-      <label class="checkbox-item">
+      <!-- ACADEMIC INFORMATION -->
+      <div class="section-label">
+        Academic Information
+      </div>
+
+      <div class="grid">
+
+        <div>
+          <label class="required" for="university">
+            University
+          </label>
+
+          <select
+            id="university"
+            name="university"
+            required
+          >
+            <option value="">
+              Select your university
+            </option>
+            <option value="Ahram Canadian University">Ahram Canadian University</option>
+            <option value="Ain Shams University">Ain Shams University</option>
+            <option value="Al Alamein International University">Al Alamein International University</option>
+            <option value="Al-Azhar University">Al-Azhar University</option>
+            <option value="Alexandria University">Alexandria University</option>
+            <option value="Arab Academy for Science, Technology and Maritime Transport">Arab Academy for Science, Technology and Maritime Transport</option>
+            <option value="Arish University">Arish University</option>
+            <option value="Assiut University">Assiut University</option>
+            <option value="Aswan University">Aswan University</option>
+            <option value="Badr University in Cairo">Badr University in Cairo</option>
+            <option value="Benha University">Benha University</option>
+            <option value="Beni-Suef University">Beni-Suef University</option>
+            <option value="Cairo University">Cairo University</option>
+            <option value="Capital University">Capital University</option>
+            <option value="Damanhour University">Damanhour University</option>
+            <option value="Damietta University">Damietta University</option>
+            <option value="Delta University for Science and Technology">Delta University for Science and Technology</option>
+            <option value="Deraya University">Deraya University</option>
+            <option value="Egypt University of Informatics">Egypt University of Informatics</option>
+            <option value="Egyptian Chinese University">Egyptian Chinese University</option>
+            <option value="Egyptian Russian University">Egyptian Russian University</option>
+            <option value="Egypt-Japan University of Science and Technology">Egypt-Japan University of Science and Technology</option>
+            <option value="Fayoum University">Fayoum University</option>
+            <option value="Future University in Egypt">Future University in Egypt</option>
+            <option value="Galala University">Galala University</option>
+            <option value="Heliopolis University">Heliopolis University</option>
+            <option value="Kafrelsheikh University">Kafrelsheikh University</option>
+            <option value="King Salman International University">King Salman International University</option>
+            <option value="Luxor University">Luxor University</option>
+            <option value="Mansoura National University">Mansoura National University</option>
+            <option value="Mansoura University">Mansoura University</option>
+            <option value="Matrouh University">Matrouh University</option>
+            <option value="Menoufia University">Menoufia University</option>
+            <option value="Minia University">Minia University</option>
+            <option value="Misr International University">Misr International University</option>
+            <option value="Misr University for Science and Technology">Misr University for Science and Technology</option>
+            <option value="Modern Sciences and Arts University">Modern Sciences and Arts University</option>
+            <option value="Modern University for Technology and Information">Modern University for Technology and Information</option>
+            <option value="Nahda University">Nahda University</option>
+            <option value="New Giza University">New Giza University</option>
+            <option value="New Valley National University">New Valley National University</option>
+            <option value="Nile University">Nile University</option>
+            <option value="October 6 University">October 6 University</option>
+            <option value="Pharos University in Alexandria">Pharos University in Alexandria</option>
+            <option value="Port Said University">Port Said University</option>
+            <option value="Sinai University">Sinai University</option>
+            <option value="Sohag University">Sohag University</option>
+            <option value="South Valley University">South Valley University</option>
+            <option value="Sphinx University">Sphinx University</option>
+            <option value="Suez Canal University">Suez Canal University</option>
+            <option value="Suez University">Suez University</option>
+            <option value="Tanta University">Tanta University</option>
+            <option value="The American University in Cairo">The American University in Cairo</option>
+            <option value="The Arab Academy for Management, Banking and Financial Sciences">The Arab Academy for Management, Banking and Financial Sciences</option>
+            <option value="The British University in Egypt">The British University in Egypt</option>
+            <option value="The German University in Cairo">The German University in Cairo</option>
+            <option value="Université Française d’Égypte">Université Française d’Égypte</option>
+            <option value="University of Sadat City">University of Sadat City</option>
+            <option value="University of Science and Technology at Zewail City">University of Science and Technology at Zewail City</option>
+            <option value="Zagazig University">Zagazig University</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="required" for="faculty">
+            Faculty
+          </label>
+
+          <input
+            type="text"
+            id="faculty"
+            name="faculty"
+            placeholder="e.g. Business, Engineering"
+            required
+          >
+        </div>
+
+        <div>
+          <label class="required" for="major">
+            Major / Specialization
+          </label>
+
+          <input
+            type="text"
+            id="major"
+            name="major"
+            placeholder="Enter your major"
+            required
+          >
+        </div>
+
+        <div>
+          <label class="required" for="academicYear">
+            Academic Year
+          </label>
+
+          <select
+            id="academicYear"
+            name="academicYear"
+            required
+          >
+            <option value="">
+              Select your year
+            </option>
+            <option>1st Year</option>
+            <option>2nd Year</option>
+            <option>3rd Year</option>
+            <option>4th Year</option>
+            <option>5th Year</option>
+            <option>Fresh Graduate</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- CAREER JOURNEY -->
+      <div class="section-label">
+        Career Journey
+      </div>
+
+      <div class="grid">
+
+        <div class="full">
+
+          <label class="required" for="careerJourney">
+            Where are you currently in your career journey?
+          </label>
+
+          <textarea
+            id="careerJourney"
+            name="careerJourney"
+            placeholder="Tell us briefly about your current experience, interests, goals, internships, or career direction."
+            required
+          ></textarea>
+
+        </div>
+
+      </div>
+
+      <!-- CAREER CHALLENGE -->
+      <div class="section-label">
+        Career Challenge
+      </div>
+
+      <div class="grid">
+
+        <div class="full">
+
+          <label class="required" for="careerChallenge">
+            What is the main career challenge you are currently facing?
+          </label>
+
+          <textarea
+            id="careerChallenge"
+            name="careerChallenge"
+            placeholder="Tell us the main challenge you want help with."
+            required
+          ></textarea>
+
+        </div>
+
+      </div>
+
+      <!-- EVENT ATTENDANCE -->
+      <div class="section-label">
+        Event Attendance
+      </div>
+
+      <div class="grid">
+
+        <div class="full">
+
+          <label class="required">
+            Will you attend the event?
+          </label>
+
+          <div class="choices">
+
+            <label class="choice">
+              <input
+                type="radio"
+                name="attendEvent"
+                value="Yes"
+                required
+              >
+              <span>
+                Yes, I will attend
+              </span>
+            </label>
+
+            <label class="choice">
+              <input
+                type="radio"
+                name="attendEvent"
+                value="No"
+              >
+              <span>
+                No, I cannot attend
+              </span>
+            </label>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- DEVELOPMENT GOALS -->
+      <div class="section-label">
+        Your Development Goals
+      </div>
+
+      <div class="grid">
+
+        <div class="full">
+
+          <label class="required">
+            Which areas would you most like to improve?
+          </label>
+
+          <div class="note">
+            Select one or two areas.
+          </div>
+
+          <div
+            class="choices"
+            style="margin-top:10px;"
+          >
+
+            <label class="choice">
+              <input
+                type="checkbox"
+                name="developmentGoals"
+                value="Communication Skills"
+              >
+              <span>
+                Communication Skills
+              </span>
+            </label>
+
+            <label class="choice">
+              <input
+                type="checkbox"
+                name="developmentGoals"
+                value="Interview Skills"
+              >
+              <span>
+                Interview Skills
+              </span>
+            </label>
+
+            <label class="choice">
+              <input
+                type="checkbox"
+                name="developmentGoals"
+                value="CV & LinkedIn"
+              >
+              <span>
+                CV &amp; LinkedIn
+              </span>
+            </label>
+
+            <label class="choice">
+              <input
+                type="checkbox"
+                name="developmentGoals"
+                value="Networking"
+              >
+              <span>
+                Networking
+              </span>
+            </label>
+
+            <label class="choice">
+              <input
+                type="checkbox"
+                name="developmentGoals"
+                value="Career Direction"
+              >
+              <span>
+                Career Direction
+              </span>
+            </label>
+
+            <label class="choice">
+              <input
+                type="checkbox"
+                name="developmentGoals"
+                value="Technical Skills"
+              >
+              <span>
+                Technical Skills
+              </span>
+            </label>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- CONSENT -->
+      <div class="consent">
+
         <input
           type="checkbox"
           id="consent"
           name="consent"
-          value="Yes"
           required
         >
-        <span>
-          I agree to receive event-related communication from The Bridge.
-        </span>
-      </label>
 
-      <div id="errorMessage" class="error"></div>
+        <label for="consent">
+          I agree to provide the information above for the purpose of
+          registering for The Bridge Career Launch Program and receiving
+          event-related communications, including my personal registration
+          confirmation and QR code.
+        </label>
 
-      <button id="submitButton" type="submit">
+      </div>
+
+      <button
+        type="submit"
+        id="submitBtn"
+      >
         Complete Registration
       </button>
 
+      <div id="message"></div>
+
     </form>
 
-
-    <!-- SUBMITTING SCREEN -->
-
-    <div id="submittingScreen" class="submitting">
-
-      <div class="spinner"></div>
-
-      <h2>Submitting Your Registration</h2>
-
-      <p>
-        Please wait while we confirm your registration.
-      </p>
-
-    </div>
-
-
     <!-- SUCCESS SCREEN -->
+    <div
+      id="successScreen"
+      class="success-screen"
+    >
 
-    <div id="submissionScreen">
+      <div class="success-icon">
+        ✓
+      </div>
 
-      <div class="success-icon">✓</div>
-
-      <h2>Registration Submitted Successfully</h2>
+      <h2>
+        Registration Complete
+      </h2>
 
       <p>
-        Thank you for registering for
-        <strong>The Bridge | From Campus to Career</strong>.
-      </p>
-
-      <p>
+        Thank you for registering for The Bridge | From Campus to Career.
         Your registration has been received successfully.
       </p>
 
-      <div
-        id="regId"
-        class="registration-id"
-      ></div>
+      <div id="regId" class="registration-id" style="display:none;"></div>
 
-      <p class="email-note">
-        A confirmation email containing your registration details
-        and QR code will be sent to your email address.
-      </p>
-
-      <p class="email-note">
-        Please keep your Registration ID and confirmation email
-        for event check-in.
+      <p>
+        Please check your email for your confirmation and personal QR code.
+        Keep your Registration ID for event check-in.
       </p>
 
     </div>
 
   </div>
 
-</div>
+</main>
 
+<iframe name="submissionFrame" id="submissionFrame" style="display:none;"></iframe>
 
-<!-- Hidden Apps Script response frame -->
-
-<iframe
-  name="submissionFrame"
-  id="submissionFrame"
-  style="display:none;"
-></iframe>
-
+<footer>
+  THE
+  <span style="color:#b16b00;font-weight:700;">
+    BRIDGE
+  </span>
+  · Career Launch Program
+</footer>
 
 <script>
 
 const form = document.getElementById('registrationForm');
-const submitButton = document.getElementById('submitButton');
-
-const submittingScreen =
-  document.getElementById('submittingScreen');
-
-const submissionScreen =
-  document.getElementById('submissionScreen');
-
-const errorMessage =
-  document.getElementById('errorMessage');
-
-const registrationId =
-  document.getElementById('regId');
-
-
-/*
- * Validate development goals.
- * Students must select 1 or 2.
- */
-
-function validateDevelopmentGoals() {
-
-  const selected =
-    document.querySelectorAll(
-      'input[name="developmentGoals"]:checked'
-    );
-
-  if (selected.length === 0) {
-    showError(
-      'Please select at least one development goal.'
-    );
-
-    return false;
-  }
-
-  if (selected.length > 2) {
-    showError(
-      'Please select a maximum of two development goals.'
-    );
-
-    return false;
-  }
-
-  return true;
-}
-
-
-/*
- * Display error message.
- */
-
-function showError(message) {
-
-  errorMessage.textContent = message;
-  errorMessage.style.display = 'block';
-
-  window.scrollTo({
-    top: document.body.scrollHeight,
-    behavior: 'smooth'
-  });
-}
-
-
-/*
- * Form submission.
- */
+const submitBtn = document.getElementById('submitBtn');
+const successScreen = document.getElementById('successScreen');
+const message = document.getElementById('message');
+const regId = document.getElementById('regId');
 
 form.addEventListener('submit', function(event) {
 
-  if (!validateDevelopmentGoals()) {
-    event.preventDefault();
+  event.preventDefault();
+
+  const goals = Array.from(
+    document.querySelectorAll(
+      'input[name="developmentGoals"]:checked'
+    )
+  );
+
+  if (goals.length < 1 || goals.length > 2) {
+    showMessage(
+      'Please select one or two areas you would like to improve.',
+      'error'
+    );
     return;
   }
 
-  errorMessage.style.display = 'none';
+  message.style.display = 'none';
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting Registration...';
 
-  /*
-   * Immediately change the page.
-   * This prevents the user from seeing
-   * a frozen form while Apps Script processes.
-   */
+  form.target = 'submissionFrame';
+  form.submit();
 
   form.style.display = 'none';
 
-  submittingScreen.style.display = 'block';
+  const submitting = document.createElement('div');
+  submitting.id = 'submittingScreen';
+  submitting.style.display = 'block';
+  submitting.style.textAlign = 'center';
+  submitting.style.padding = '50px 30px';
+  submitting.innerHTML =
+    '<div class="spinner"></div>' +
+    '<h2>Submitting Registration</h2>' +
+    '<p style="color:#68645c;line-height:1.6;">Please wait while we confirm your registration.</p>';
 
-  submitButton.disabled = true;
-
+  form.parentNode.insertBefore(submitting, successScreen);
 });
-
-
-/*
- * Apps Script sends the result here.
- */
 
 window.addEventListener('message', function(event) {
 
-  if (
-    !event.data ||
-    event.data.type !== 'bridge-registration'
-  ) {
+  if (!event.data || event.data.type !== 'bridge-registration') {
     return;
   }
 
-
-  /*
-   * Registration successful.
-   */
+  const submitting = document.getElementById('submittingScreen');
+  if (submitting) submitting.remove();
 
   if (event.data.success) {
 
-    submittingScreen.style.display = 'none';
-
-    submissionScreen.style.display = 'block';
-
+    successScreen.style.display = 'block';
 
     if (event.data.registrationId) {
-
-      registrationId.textContent =
-        'Registration ID: ' +
-        event.data.registrationId;
-
-      registrationId.style.display = 'inline-block';
-
-    } else {
-
-      registrationId.style.display = 'none';
-
+      regId.textContent = 'Registration ID: ' + event.data.registrationId;
+      regId.style.display = 'inline-block';
     }
 
-
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-
+    window.scrollTo({ top:0, behavior:'smooth' });
     return;
   }
 
-
-  /*
-   * Registration failed.
-   * Bring the form back.
-   */
-
-  submittingScreen.style.display = 'none';
-
   form.style.display = 'block';
+  submitBtn.disabled = false;
+  submitBtn.textContent = 'Complete Registration';
 
-  submitButton.disabled = false;
-
-  submitButton.textContent = 'Complete Registration';
-
-  showError(
-    event.data.message ||
-    'Something went wrong. Please try again.'
+  showMessage(
+    event.data.message || 'Something went wrong. Please try again.',
+    'error'
   );
-
 });
+
+function showMessage(text, type) {
+
+  message.textContent = text;
+  message.className = type;
+  message.style.display = 'block';
+
+  message.scrollIntoView({
+    behavior:'smooth',
+    block:'center'
+  });
+}
 
 </script>
 
