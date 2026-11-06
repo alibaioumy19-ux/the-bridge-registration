@@ -44,6 +44,26 @@ create index if not exists registrations_event_created_idx on public.registratio
 create index if not exists registrations_email_idx on public.registrations(email);
 create index if not exists events_slug_idx on public.events(slug);
 
+-- The database decides the initial status so public clients cannot bypass manual review.
+create or replace function public.set_registration_status()
+returns trigger language plpgsql security definer set search_path=public
+as $
+declare mode text;
+begin
+  select approval_mode into mode from public.events where id = new.event_id and is_published = true and is_registration_open = true;
+  if mode is null then
+    raise exception 'Registration is closed for this event.';
+  end if;
+  new.status := case when mode = 'manual' then 'pending' else 'confirmed' end;
+  return new;
+end;
+$;
+
+drop trigger if exists registrations_set_status on public.registrations;
+create trigger registrations_set_status
+before insert on public.registrations
+for each row execute function public.set_registration_status();
+
 alter table public.profiles enable row level security;
 alter table public.events enable row level security;
 alter table public.registrations enable row level security;
