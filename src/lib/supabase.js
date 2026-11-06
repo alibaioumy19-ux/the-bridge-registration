@@ -7,24 +7,33 @@ export const supabase = isConfigured ? createClient(url, anonKey) : null;
 
 export async function getActiveEvent(slug) {
   if (!supabase) return null;
-  const { data, error } = await supabase.from('events').select('*').eq('slug', slug).eq('is_published', true).single();
+  const { data, error } = await supabase
+    .from('events')
+    .select('*')
+    .eq('slug', slug)
+    .eq('is_published', true)
+    .single();
   if (error) throw error;
-  return { registration_code: registrationCode, status };
+  return data;
 }
 
 export async function submitRegistration(event, form) {
   if (!supabase) throw new Error('The database is not connected yet. Add your Supabase project URL and anon key to the .env file.');
-  const registrationCode = `TB-${new Date().getFullYear()}-${crypto.randomUUID().slice(0,8).toUpperCase()}`;
-  const status = event.approval_mode === 'manual' ? 'pending' : 'confirmed';
+  const registrationCode = `TB-${new Date().getFullYear()}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
   const { error } = await supabase.from('registrations').insert({
-    event_id: event.id, registration_code: registrationCode, full_name: form.fullName.trim(),
-    email: form.email.trim().toLowerCase(), phone: form.phone.trim(), university: form.university.trim(),
-    faculty: form.faculty.trim() || null, academic_year: form.academicYear || null,
-    answers: { ...form.extra }, status: event.approval_mode === 'manual' ? 'pending' : 'confirmed'
-  }).select('registration_code,status').single();
+    event_id: event.id,
+    registration_code: registrationCode,
+    full_name: form.fullName.trim(),
+    email: form.email.trim().toLowerCase(),
+    phone: form.phone.trim(),
+    university: form.university.trim(),
+    faculty: form.faculty.trim() || null,
+    academic_year: form.academicYear || null,
+    answers: { ...form.extra }
+  });
   if (error) {
     if (error.code === '23505') throw new Error('This email is already registered for this event.');
     throw error;
   }
-  return data;
+  return { registration_code: registrationCode, status: event.approval_mode === 'manual' ? 'pending' : 'confirmed' };
 }
