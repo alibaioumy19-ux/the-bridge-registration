@@ -85,6 +85,13 @@ begin
 end;
 $bridge_admin$;
 
+drop policy if exists "Public can view published events" on public.events;
+drop policy if exists "Admins manage events" on public.events;
+drop policy if exists "Public can submit registration to open events" on public.registrations;
+drop policy if exists "Admins view registrations" on public.registrations;
+drop policy if exists "Admins update registrations" on public.registrations;
+drop policy if exists "Admins manage profiles" on public.profiles;
+
 create policy "Public can view published events" on public.events for select using (is_published=true or public.is_bridge_admin());
 create policy "Admins manage events" on public.events for all using (public.is_bridge_admin()) with check (public.is_bridge_admin());
 create policy "Public can submit registration to open events" on public.registrations for insert with check (
