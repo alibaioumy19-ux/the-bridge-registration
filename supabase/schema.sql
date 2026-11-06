@@ -69,8 +69,21 @@ alter table public.events enable row level security;
 alter table public.registrations enable row level security;
 
 create or replace function public.is_bridge_admin()
-returns boolean language sql stable security definer set search_path=public
-as $$ select exists(select 1 from public.profiles p where p.id=auth.uid() and p.role in ('super_admin','admin')); $$;
+returns boolean
+language plpgsql
+stable
+security definer
+set search_path = public
+as $bridge_admin$
+begin
+  return exists (
+    select 1
+    from public.profiles p
+    where p.id = auth.uid()
+      and p.role in ('super_admin', 'admin')
+  );
+end;
+$bridge_admin$;
 
 create policy "Public can view published events" on public.events for select using (is_published=true or public.is_bridge_admin());
 create policy "Admins manage events" on public.events for all using (public.is_bridge_admin()) with check (public.is_bridge_admin());
