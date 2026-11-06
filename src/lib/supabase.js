@@ -17,10 +17,10 @@ export async function getActiveEvent(slug) {
   return data;
 }
 
-export async function sendRegistrationEmail(registrationId) {
+export async function sendRegistrationEmail(registrationCode) {
   if (!supabase) throw new Error('The database is not connected.');
   const { error } = await supabase.functions.invoke('send-registration-email', {
-    body: { registration_id: registrationId }
+    body: { registration_code: registrationCode }
   });
   if (error) throw error;
 }
@@ -38,13 +38,13 @@ export async function submitRegistration(event, form) {
     faculty: form.faculty.trim() || null,
     academic_year: form.academicYear || null,
     answers: { ...form.extra }
-  }).select('id').single();
+  });
   if (error) {
     if (error.code === '23505') throw new Error('This email is already registered for this event.');
     throw error;
   }
 
   const status = event.approval_mode === 'manual' ? 'pending' : 'confirmed';
-  await sendRegistrationEmail(data.id);
+  await sendRegistrationEmail(registrationCode);
   return { registration_code: registrationCode, status };
 }
