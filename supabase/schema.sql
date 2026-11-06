@@ -47,7 +47,7 @@ create index if not exists events_slug_idx on public.events(slug);
 -- The database decides the initial status so public clients cannot bypass manual review.
 create or replace function public.set_registration_status()
 returns trigger language plpgsql security definer set search_path=public
-as $
+as $$
 declare mode text;
 begin
   select approval_mode into mode from public.events where id = new.event_id and is_published = true and is_registration_open = true;
@@ -57,7 +57,7 @@ begin
   new.status := case when mode = 'manual' then 'pending' else 'confirmed' end;
   return new;
 end;
-$;
+$$;
 
 drop trigger if exists registrations_set_status on public.registrations;
 create trigger registrations_set_status
