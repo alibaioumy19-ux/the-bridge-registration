@@ -17,10 +17,18 @@ export async function getActiveEvent(slug) {
   return data;
 }
 
+export async function sendRegistrationEmail(registrationId) {
+  if (!supabase) throw new Error('The database is not connected.');
+  const { error } = await supabase.functions.invoke('send-registration-email', {
+    body: { registration_id: registrationId }
+  });
+  if (error) throw error;
+}
+
 export async function submitRegistration(event, form) {
   if (!supabase) throw new Error('The database is not connected yet. Add your Supabase project URL and anon key to the .env file.');
   const registrationCode = `TB-${new Date().getFullYear()}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
-  const { error } = await supabase.from('registrations').insert({
+  const { data, error } = await supabase.from('registrations').insert({
     event_id: event.id,
     registration_code: registrationCode,
     full_name: form.fullName.trim(),
@@ -30,10 +38,13 @@ export async function submitRegistration(event, form) {
     faculty: form.faculty.trim() || null,
     academic_year: form.academicYear || null,
     answers: { ...form.extra }
-  });
+  }).select('id').single();
   if (error) {
     if (error.code === '23505') throw new Error('This email is already registered for this event.');
     throw error;
   }
-  return { registration_code: registrationCode, status: event.approval_mode === 'manual' ? 'pending' : 'confirmed' };
+
+  const status = event.approval_mode === 'manual' ? 'pending' : 'confirmed';
+  await sendRegistrationEmail(data.id);
+  return { registration_code: registrationCode, status };
 }
